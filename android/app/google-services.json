@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "732085769219",
+    "project_id": "pemesanan-jasa-fotografer",
+    "storage_bucket": "pemesanan-jasa-fotografer.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732085769219:android:f2780210709cbdb1402a36",
+        "android_client_info": {
+          "package_name": "com.example.sistem_pemesanan_jasa_fotografi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732085769219-sgt1732g69kpn3p0aloj882fe403826t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTa7fylrBWqPo5XOv5XY95_Hoa2657lMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732085769219-sgt1732g69kpn3p0aloj882fe403826t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
