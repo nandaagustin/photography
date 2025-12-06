@@ -160,109 +160,254 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.lightBlue[50],
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.camera_alt_rounded,
-                  size: 90, color: Colors.lightBlueAccent),
-              const SizedBox(height: 20),
-              const Text(
-                'Selamat Datang!',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.lightBlue,
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.grey[100],
+    body: SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Logo
+            Center(
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/fomo_logo.png',
+                    height: 120,
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+
+            const Text(
+              "Sign in",
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 25),
+
+            // Email Label
+            const Text("Email Address"),
+            const SizedBox(height: 6),
+
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(
+                hintText: "yeyo@gmail.com",
+                prefixIcon: const Icon(Icons.email_outlined),
+                filled: true,
+                fillColor: Colors.grey[200],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
                 ),
               ),
-              const SizedBox(height: 8),
-              const Text(
-                'Masuk untuk melanjutkan',
-                style: TextStyle(fontSize: 16, color: Colors.black54),
-              ),
-              const SizedBox(height: 40),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 6,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
+            ),
+
+            const SizedBox(height: 20),
+
+            // Password Label
+            const Text("Password"),
+            const SizedBox(height: 6),
+
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                hintText: "•••••••",
+                prefixIcon: const Icon(Icons.lock_outline),
+                suffixIcon: const Icon(Icons.visibility_off_outlined),
+                filled: true,
+                fillColor: Colors.grey[200],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide.none,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: emailController,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.email_outlined,
-                              color: Colors.lightBlue),
-                          labelText: 'Email',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      TextField(
-                        controller: passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.lock_outline,
-                              color: Colors.lightBlue),
-                          labelText: 'Password',
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: _login,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.lightBlue,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 100,
-                            vertical: 14,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: const Text(
-                          'MASUK',
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const RegisterScreen()),
-                          );
-                        },
-                        child: const Text(
-                          'Belum punya akun? Daftar sekarang',
-                          style: TextStyle(color: Colors.lightBlueAccent),
-                        ),
-                      ),
-                    ],
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // Forgot Password
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: const Text("Forgot password?"),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 20),
+
+            // Login Button
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: _login,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF5A7684),
+                  foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                      horizontal: 100,
+                      vertical: 14,
+                      ),            // warna teks di tombol
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                child: const Text(
+                  "Sign in",
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
-            ],
-          ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Don't have an account? "),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const RegisterScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text(
+                    "Sign up",
+                    style: TextStyle(
+                      color: Color(0xFF5A7684),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
 }
+}
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.lightBlue[50],
+//       body: Center(
+//         child: SingleChildScrollView(
+//           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               const Icon(Icons.camera_alt_rounded,
+//                   size: 90, color: Colors.lightBlueAccent),
+//               const SizedBox(height: 20),
+//               const Text(
+//                 'Selamat Datang!',
+//                 style: TextStyle(
+//                   fontSize: 28,
+//                   fontWeight: FontWeight.bold,
+//                   color: Colors.lightBlue,
+//                 ),
+//               ),
+//               const SizedBox(height: 8),
+//               const Text(
+//                 'Masuk untuk melanjutkan',
+//                 style: TextStyle(fontSize: 16, color: Colors.black54),
+//               ),
+//               const SizedBox(height: 40),
+//               Container(
+//                 decoration: BoxDecoration(
+//                   color: Colors.white,
+//                   borderRadius: BorderRadius.circular(16),
+//                   boxShadow: const [
+//                     BoxShadow(
+//                       color: Colors.black12,
+//                       blurRadius: 6,
+//                       offset: Offset(0, 3),
+//                     ),
+//                   ],
+//                 ),
+//                 child: Padding(
+//                   padding: const EdgeInsets.all(20),
+//                   child: Column(
+//                     children: [
+//                       TextField(
+//                         controller: emailController,
+//                         decoration: const InputDecoration(
+//                           prefixIcon: Icon(Icons.email_outlined,
+//                               color: Colors.lightBlue),
+//                           labelText: 'Email',
+//                           border: OutlineInputBorder(),
+//                         ),
+//                       ),
+//                       const SizedBox(height: 20),
+//                       TextField(
+//                         controller: passwordController,
+//                         obscureText: true,
+//                         decoration: const InputDecoration(
+//                           prefixIcon: Icon(Icons.lock_outline,
+//                               color: Colors.lightBlue),
+//                           labelText: 'Password',
+//                           border: OutlineInputBorder(),
+//                         ),
+//                       ),
+//                       const SizedBox(height: 30),
+//                       ElevatedButton(
+//                         onPressed: _login,
+//                         style: ElevatedButton.styleFrom(
+//                           backgroundColor: Colors.lightBlue,
+//                           padding: const EdgeInsets.symmetric(
+//                             horizontal: 100,
+//                             vertical: 14,
+//                           ),
+//                           shape: RoundedRectangleBorder(
+//                             borderRadius: BorderRadius.circular(12),
+//                           ),
+//                         ),
+//                         child: const Text(
+//                           'MASUK',
+//                           style: TextStyle(fontSize: 16, color: Colors.white),
+//                         ),
+//                       ),
+//                       const SizedBox(height: 16),
+//                       TextButton(
+//                         onPressed: () {
+//                           Navigator.push(
+//                             context,
+//                             MaterialPageRoute(
+//                                 builder: (_) => const RegisterScreen()),
+//                           );
+//                         },
+//                         child: const Text(
+//                           'Belum punya akun? Daftar sekarang',
+//                           style: TextStyle(color: Colors.lightBlueAccent),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
