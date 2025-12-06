@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../auth/login_screen.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -27,12 +29,22 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     super.dispose();
   }
 
-  // fungsi hapus paket
+  Future<void> _logout() async {
+    await FirebaseAuth.instance.signOut();
+    if (!mounted) return;
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const LoginPage(), // pastikan nama ini benar
+      ),
+    );
+  }
+
   Future<void> _deletePackage(String id) async {
     await FirebaseFirestore.instance.collection('packages').doc(id).delete();
   }
 
-  // fungsi unggah gambar ke storage
   Future<String?> _uploadImage() async {
     final picker = ImagePicker();
     final picked = await picker.pickImage(source: ImageSource.gallery);
@@ -47,14 +59,13 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     return await ref.getDownloadURL();
   }
 
-  // dialog tambah / edit paket
   void _showPackageDialog({DocumentSnapshot? package}) {
     final nameController =
         TextEditingController(text: package != null ? package['name'] : '');
     final descController =
         TextEditingController(text: package != null ? package['description'] : '');
-    final priceController =
-        TextEditingController(text: package != null ? package['price'].toString() : '');
+    final priceController = TextEditingController(
+        text: package != null ? package['price'].toString() : '');
     String? imageUrl = package != null ? package['imageUrl'] : null;
 
     showDialog(
@@ -112,8 +123,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
                 'name': nameController.text,
                 'description': descController.text,
                 'price': double.parse(priceController.text),
-                'imageUrl': imageUrl ??
-                    'https://via.placeholder.com/150', // default jika tidak upload
+                'imageUrl': imageUrl ?? 'https://via.placeholder.com/150',
               };
 
               if (package == null) {
@@ -139,6 +149,12 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard Admin'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: _logout,
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
@@ -151,10 +167,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
       body: TabBarView(
         controller: _tabController,
         children: [
-          // Tab Kelola Paket
           _buildManagePackages(),
-
-          // Tab Status Pemesanan
           _buildOrdersStatus(),
         ],
       ),
@@ -168,7 +181,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     );
   }
 
-  // daftar paket foto
   Widget _buildManagePackages() {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('packages').snapshots(),
@@ -212,7 +224,6 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen>
     );
   }
 
-  // daftar pemesanan
   Widget _buildOrdersStatus() {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('bookings').snapshots(),
